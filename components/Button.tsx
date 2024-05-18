@@ -40,14 +40,14 @@ const buttonStyles = cva(
 
 interface ButtonProps extends VariantProps<typeof buttonStyles> {
   intent?: 'primary' | 'secondary' | 'danger';
-  type?: 'Icon' | 'Text' | 'IconText' | 'TextIcon';
+  type?: 'Icon' | 'Text' | 'IconText' | 'TextIcon'|'MenuButton';
   title?: string;
   icon?: React.ReactNode;
   onClick?: () => void;
   href?: string;
 }
 
-export const Button: React.FC<ButtonProps> = (props) => {
+  const Button: React.FC<ButtonProps> = (props) => {
   const { type, title, icon, intent } = props;
 
   return (
@@ -58,6 +58,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
           <p className="whitespace-nowrap">{title}</p>
         </div>
       )}
+      
       {type === 'Icon' && (
         <div className="flex w-[40px] h-[40px]  items-center justify-center">
           {icon}
@@ -71,6 +72,8 @@ export const Button: React.FC<ButtonProps> = (props) => {
         </div>
       )}
 
+
+
       {type === 'Text' && (
         <p className="flex whitespace-nowrap w-full items-center justify-center h-[40px] px-3">
           {title}
@@ -79,3 +82,4 @@ export const Button: React.FC<ButtonProps> = (props) => {
     </ButtonOrLink>
   );
 };
+export default Button;
