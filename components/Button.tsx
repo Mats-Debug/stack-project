@@ -40,9 +40,9 @@ const buttonStyles = cva(
 
 interface ButtonProps extends VariantProps<typeof buttonStyles> {
   intent?: 'primary' | 'secondary' | 'danger';
-  type?: 'Icon' | 'Text' | 'IconText' | 'TextIcon'|'MenuButton';
+  type:  'Icon' | 'Text' | "IconText" | 'TextIcon';
   title?: string;
-  icon?: React.ReactNode;
+  icon?: React.ReactNode; 
   onClick?: () => void;
   href?: string;
 }
