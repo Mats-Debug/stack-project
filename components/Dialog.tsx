@@ -49,7 +49,7 @@ export  function MDialog(props: DialogProps) {
             >
               {/*content*/}
               <DialogPanel className="bg-white rounded-lg h-full w-full md:h-fit md:w-fit max-h-screen relative p-3 ">
-                <div className='w-full h-fit items-center flex justify-between border-b-2 border-gray-200'>
+                <div className='w-full h-fit items-center flex justify-between border-b border-gray-200'>
                   <p className='font-bold text-lg'>{title}</p>
                   <Button onClick={() => setIsOpen(false)} type={'Icon'} intent='primary' icon={<XMarkIcon className="w-5 h-5" />} />
                 </div>

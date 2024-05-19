@@ -78,7 +78,7 @@ const Dropdown = (props: DropdownProps) => {
               <li key={index} className="focus:bg-red-200 flex">
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex items-baseline px-4 block  py-2 text-sm  hover:bg-[#f4f4f4] w-full  text-left"
+                  className="inline-flex rounded-full items-baseline px-4 block  py-2 text-sm  hover:bg-[#f4f4f4] w-full  text-left"
                 >
                   <span className="block "> {item}</span>
                 </button>
