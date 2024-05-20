@@ -32,20 +32,63 @@ import ChevronUpIcon from '@heroicons/react/24/outline/esm/ChevronUpIcon';
 export default function Home() {
 
   const dropdownItems = ['Item 1', 'Item 2', 'Items 3',];
+  const months= [
+    { label: "Jan" },
+    { label: "Feb" },
+    { label: "Mar" }, 
+    { label: "Apr" },
+    { label: "May" },
+    { label: "Jun" },
+    { label: "Jul" },
+    { label: "Aug" },
+    { label: "Sep" },
+    { label: "Oct" },
+    { label: "Nov" },
+    { label: "Dec" },
+  ]
+  var data = [
+    { label: "Jan", data: 200, year: 2024 },
+    { label: "Feb", data: 20, year: 2024 },
+    { label: "Mar", data: 0, year: 2024 },
+    { label: "Apr", data: 200, year: 2024 },
+    { label: "May", data: 200, year: 2024 },
+    { label: "Jun", data: 200, year: 2024 },
+    { label: "Jul", data: 200, year: 2024 },
+    { label: "Aug", data: 200, year: 2024 },
+    { label: "Sep", data: 200, year: 2024 },
+    { label: "Sep", data: 200, year: 2024 },
+    { label: "Sep", data: 200, year: 2024 },
+    { label: "Sep", data: 200, year: 2024 },
+    { label: "Sep", data: 200, year: 2024 },
+ 
+  ]
+  const [Last12Items, setLast12Items] = useState<{ label: string, data: number, year: number }[]>([{ label: "", data: 0, year: 0 }]);
+  const [filterLables, setFilterLables] = useState<{}[]>([])
+  
+  useEffect(() => {
 
-  var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    if (data.length >= 12) {
+
+      setLast12Items(data.slice(-12))
+      setFilterLables( Last12Items.map((value) => value.label));
+    } else {
+      setLast12Items(data);
+      setFilterLables(months.map((value)=>value.label));
+    }
+
+  })
+
   return (
     <PriceProvider>
       <div className='justify-end w-full flex'>
-      <LineChart lables={month} chartDataList={dropdownItems}  comboBoxDataTypeOnChange={()=>{}}/>
+        <LineChart lables={filterLables} chartDataList={data} />
+
       </div>
     </PriceProvider>
 
   );
 
 }
-
-
 
 
 
@@ -83,21 +126,20 @@ import { Menu, Tab } from '@headlessui/react'
 
 
 interface ILineChart {
-  comboBoxDataTypeOnChange: (value: any) => void;
   chartDataList: any;
-  lables:any[];
+  lables: any[];
 }
 
 export function LineChart(props: ILineChart) {
-  const { comboBoxDataTypeOnChange, chartDataList,lables } = props;
+  const { chartDataList, lables } = props;
 
   type ChartDataType = {
     labels: string[];
-    datasets: [{ label: string; data: any[]; backgroundColor: string; borderColor: string }];
+    datasets: [{ label: string; data: any[]; backgroundColor: string; borderColor: string; tension: number }];
   };
   const [chartData, setChartData] = useState<ChartDataType>({
     labels: [],
-    datasets: [{ label: '', data: [], backgroundColor: '', borderColor: 'rgb(255, 99, 132)' }]
+    datasets: [{ label: '', data: [], backgroundColor: '', borderColor: 'rgb(255, 99, 132)', tension: 0 }]
   });
 
 
@@ -122,24 +164,27 @@ export function LineChart(props: ILineChart) {
 
         },
 
+
+
       }
     }
   };
-  const [chartOptions, setChartOptions] = useState<{}>(options);
-  
-  const [onChangeLabels, setOnChangeLables] = useState(lables)
+
+
 
   useEffect(() => {
- 
+
 
     setChartData({
-      labels: onChangeLabels,
+      labels: lables,
       datasets: [
         {
-          label: "" + " / " + "",
+          label: "dd" + " / " + "",
           data: chartDataList,
           borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgba(255, 99, 132, 0.5)'
+          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          tension: 0,
+
         }
       ],
 
@@ -152,15 +197,8 @@ export function LineChart(props: ILineChart) {
 
 
   return (
-    <div className="flex  w-full h-full bg-white rounded-lg shadow-md p-2 flex-col relative bg-red-200">
-      <div className='h-[20%] w-full flex justify-between'>
-        {/* <ComboBox data={DataType}
-          selected={(value: any, e: any): any => { comboBoxDataTypeOnChange(value); setLabel(value) }}
-        />
-        <ComboBox data={Period}
-          selected={(value: any, e: any): any => { onChangePeriod(value) }} /> */}
-      </div>
-      <span className=" flex w-full h-[70%]">
+    <div className="flex  w-full min-h-[200px] bg-white rounded-lg p-2 flex-col relative bg-red-200">
+      <span className=" flex w-full h-full">
         <Line data={chartData} options={options} />
       </span>
     </div>)
