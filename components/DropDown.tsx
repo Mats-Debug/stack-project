@@ -1,4 +1,3 @@
-import { CalendarIcon, EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 import { useEffect, useRef, useState } from 'react';
 interface DropdownProps {
   type: 'Icon' | 'TextIcon' | 'text';
