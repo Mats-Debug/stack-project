@@ -57,7 +57,7 @@ export default function Home() {
     </PriceProvider>
   );
 }
-
+ 
 
 interface  OverViewChartProps{
 data:any[];
