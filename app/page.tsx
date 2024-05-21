@@ -27,11 +27,47 @@ import Combobox from '@/components/ComboBox';
 
 import RangeSlider from '@/components/RangeSlider';
 import ChevronUpIcon from '@heroicons/react/24/outline/esm/ChevronUpIcon';
+
 ///skelton/product card/ charts
+/// create database 
+/// admin /shop - pages
 
 export default function Home() {
 
-  const dropdownItems = ['Item 1', 'Item 2', 'Items 3',];
+  const dropdownItems = ['Item 1', 'Item 2', 'Items 3'];
+
+  var data = [
+    { label: "Jan", data: 20, year: 2024 },
+    { label: "Feb", data: 20, year: 2024 },
+    { label: "Mar", data: 0, year: 2024 },
+    { label: "Apr", data: 200, year: 2024 },
+    { label: "May", data: 0, year: 2024 },
+    { label: "Jun", data: 50, year: 2024 },
+    { label: "Jul", data: 20, year: 2024 },
+    { label: "Aug", data: 200, year: 2024 },
+   
+  ]
+  
+
+  return (
+    <PriceProvider> 
+      <div className='justify-end w-full flex'>
+      <OverViewChart data={data}/>
+      </div>
+    </PriceProvider>
+  );
+}
+
+
+interface  OverViewChartProps{
+data:any[];
+}
+function OverViewChart(props:OverViewChartProps){
+  const{data}=props;
+  const [Last12Items, setLast12Items] = useState<{}[]>([]);
+  const [filterLables, setFilterLables] = useState<{}[]>([])
+  
+
   const months= [
     { label: "Jan" },
     { label: "Feb" },
@@ -46,54 +82,31 @@ export default function Home() {
     { label: "Nov" },
     { label: "Dec" },
   ]
-  var data = [
-    { label: "Jan", data: 200, year: 2024 },
-    { label: "Feb", data: 20, year: 2024 },
-    { label: "Mar", data: 0, year: 2024 },
-    { label: "Apr", data: 200, year: 2024 },
-    { label: "May", data: 200, year: 2024 },
-    { label: "Jun", data: 200, year: 2024 },
-    { label: "Jul", data: 200, year: 2024 },
-    { label: "Aug", data: 200, year: 2024 },
-    { label: "Sep", data: 200, year: 2024 },
-    { label: "Sep", data: 200, year: 2024 },
-    { label: "Sep", data: 200, year: 2024 },
-    { label: "Sep", data: 200, year: 2024 },
-    { label: "Sep", data: 200, year: 2024 },
- 
-  ]
-  const [Last12Items, setLast12Items] = useState<{ label: string, data: number, year: number }[]>([{ label: "", data: 0, year: 0 }]);
-  const [filterLables, setFilterLables] = useState<{}[]>([])
-  
+
   useEffect(() => {
 
     if (data.length >= 12) {
-
-      setLast12Items(data.slice(-12))
-      setFilterLables( Last12Items.map((value) => value.label));
+      setLast12Items(data.slice(-12).map((value) => value.data))
+      setFilterLables( data.slice(-12).map((value) => value.label));
     } else {
-      setLast12Items(data);
+      setLast12Items(data.map((value) => value.data));
       setFilterLables(months.map((value)=>value.label));
     }
 
-  })
-
-  return (
-    <PriceProvider>
-      <div className='justify-end w-full flex'>
-        <LineChart lables={filterLables} chartDataList={data} />
-
-      </div>
-    </PriceProvider>
-
-  );
-
+  },[])
+  return(
+  <section className='w-full flex bg-white flex-col p-3 gap-3'>
+    <div className='w-fill border-b '>
+    <h1>OverView</h1>
+    
+    </div>
+    <div>
+    
+    </div>
+   
+  <LineChart lables={filterLables} chartDataList={Last12Items} />
+  </section>)
 }
-
-
-
-
-
 
 import {
   Chart as ChartJS,
@@ -121,8 +134,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-import { Menu, Tab } from '@headlessui/react'
-
 
 
 interface ILineChart {
@@ -170,10 +181,7 @@ export function LineChart(props: ILineChart) {
     }
   };
 
-
-
   useEffect(() => {
-
 
     setChartData({
       labels: lables,
@@ -183,21 +191,18 @@ export function LineChart(props: ILineChart) {
           data: chartDataList,
           borderColor: 'rgb(255, 99, 132)',
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
-          tension: 0,
+          tension: 0.3,
 
         }
       ],
 
     });
 
-
-  }, [, chartDataList]);
-
-
+  }, [lables,chartDataList]);
 
 
   return (
-    <div className="flex  w-full min-h-[200px] bg-white rounded-lg p-2 flex-col relative bg-red-200">
+    <div className="flex  w-full min-h-[200px]   flex-col relative ">
       <span className=" flex w-full h-full">
         <Line data={chartData} options={options} />
       </span>
