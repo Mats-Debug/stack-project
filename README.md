@@ -39,3 +39,6 @@ yarn add class-variance-authority
 
 
 npm install --save chart.js react-chartjs-2
+
+
+npm install recharts
